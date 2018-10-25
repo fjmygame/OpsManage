@@ -22,7 +22,7 @@ from django.http import StreamingHttpResponse,HttpResponse
 from OpsManage.utils.logger import logger
 
 @login_required()
-@permission_required('OpsManage.can_add_database_server_config',login_url='/noperm/')
+@permission_required('OpsManage.can_read_database_server_config',login_url='/noperm/')
 def db_config(request):
     if request.method == "GET":
         groupList = Group.objects.all()
@@ -55,7 +55,7 @@ def db_config(request):
                       )
                 
 @login_required()
-@permission_required('OpsManage.can_read_sql_audit_order',login_url='/noperm/')
+@permission_required('orders.can_read_sql_audit_order',login_url='/noperm/')
 def db_sqlorder_run(request,id):
     try:
         if request.user.is_superuser:order = Order_System.objects.get(id=id)
@@ -240,7 +240,7 @@ def db_sqlorder_run(request,id):
         
         
 @login_required()
-@permission_required('OpsManage.change_sql_audit_control',login_url='/noperm/')
+@permission_required('OpsManage.can_change_sql_audit_control',login_url='/noperm/')
 def db_sql_control(request):
     if request.method == "POST":
         try:
@@ -282,7 +282,7 @@ def db_sql_control(request):
                 return JsonResponse({'msg':"修改失败: "+str(ex),"code":500,'data':[]}) 
             
 @login_required()
-@permission_required('OpsManage.can_read_sql_audit_order',login_url='/noperm/')
+@permission_required('orders.can_read_sql_audit_order',login_url='/noperm/')
 def db_sqlorder_osc(request,id):
     if request.method == "POST" and request.POST.get('model') == 'query':
         order = SQL_Audit_Order.objects.get(id=id)
@@ -311,7 +311,7 @@ def db_sqlorder_osc(request,id):
  
         
 @login_required()
-@permission_required('OpsManage.can_add_database_server_config',login_url='/noperm/')
+@permission_required('OpsManage.can_read_database_server_config',login_url='/noperm/')
 def db_ops(request): 
     if request.method == "GET":
         dataBaseList = DataBase_Server_Config.objects.all()

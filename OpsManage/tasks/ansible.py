@@ -46,7 +46,7 @@ def AnsiblePlayBook(**kw):
     try:
         if kw.has_key('playbook_id'):
             playbook = Ansible_Playbook.objects.get(id=kw.get('playbook_id'))
-            filePath = os.getcwd()  + str(playbook.playbook_file)
+            filePath = os.getcwd() + '/upload/' + str(playbook.playbook_file)
             if kw.has_key('hosts'):
                 try:
                     sList = list(kw.get('hosts'))
@@ -63,7 +63,7 @@ def AnsiblePlayBook(**kw):
                                             ans_content=u"执行Ansible剧本",ans_server=','.join(sList)) 
             sList, resource = AssetsSource().queryAssetsByIp(ipList=sList)       
             ANS = ANSRunner(resource,redisKey=None,logId=logId)
-            ANS.run_playbook(host_list=sList, playbook_path=filePath)
+            ANS.run_playbook(host_list=sList, playbook_path=filePath,extra_vars=playbook.playbook_vars)
             return ANS.get_playbook_result()
     except Exception,e:
         print e

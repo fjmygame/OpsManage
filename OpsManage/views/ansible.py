@@ -216,7 +216,7 @@ def apps_list(request):
         return render(request,'apps/apps_list.html',{"user":request.user,"playbookList":playbookList,})      
 
 @login_required()
-@permission_required('OpsManage.can_add_ansible_playbook',login_url='/noperm/')
+@permission_required('OpsManage.can_read_ansible_playbook',login_url='/noperm/')
 def apps_playbook_file(request,pid):
     try:
         playbook = Ansible_Playbook.objects.get(id=pid)
@@ -504,7 +504,7 @@ def ansible_log_view(request,model,id):
     
     
 @login_required()
-@permission_required('OpsManage.can_read_ansible_script',login_url='/noperm/')
+@permission_required('OpsManage.can_add_ansible_script',login_url='/noperm/')
 def apps_script_online(request):
     if request.method == "GET":
         serverList = AssetsSource().serverList()
